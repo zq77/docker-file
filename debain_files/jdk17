@@ -1,0 +1,4 @@
+FROM debian:latest
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+RUN sed -i 's/security.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+RUN apt-get -yqq update && apt-get install -yqq openjdk-17-jdk-headless && apt-get clean
