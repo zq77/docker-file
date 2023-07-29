@@ -1,4 +1,12 @@
 FROM debian:latest
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 RUN sed -i 's/security.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
-RUN apt-get -yqq update && apt-get install -yqq openjdk-17-jdk-headless maven && apt-get clean
+RUN apt-get -yqq update && apt-get install -yqq openjdk-17-jdk-headless && apt-get clean
+# install maven
+#RUN apt-get install -yqq wget
+#RUN wget https://downloads.apache.org/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz -P /tmp
+#RUN tar xf /tmp/apache-maven-*.tar.gz -C /opt
+#RUN ln -s /opt/apache-maven-3.9.3 /opt/maven
+#ADD conf/maven/maven.sh /etc/profile.d/maven.sh
+#ADD conf/maven/settings.xml /opt/maven/conf/settings.xml
+#CMD ["source /etc/profile.d/maven.sh"]
