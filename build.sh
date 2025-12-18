@@ -16,9 +16,24 @@ function build_jdk17_image () {
     docker push ${tag}
 }
 
+function build_jdk21_image () {
+    docker_file=debain_files/jdk21
+
+    tag=${registry}/${namespace}/jdk21
+
+    context_path=.
+
+    docker build --force-rm \
+         -f ${docker_file} \
+         -t ${tag} \
+         ${context_path}
+
+    # docker push ${tag}
+}
+
 cmds=( \
 
-#build_node14 \
+build_jdk21 \
 
 build_jdk17
 
@@ -28,9 +43,9 @@ function do_command () {
 
     case $1 in
 
-#        build_node14)
-#            build_jdk17_image
-#            ;;
+        build_jdk21)
+           build_jdk21_image
+           ;;
 
         build_jdk17)
             build_jdk17_image
