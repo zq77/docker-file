@@ -2,7 +2,7 @@ namespace=z_q
 registry=registry.cn-hangzhou.aliyuncs.com
 
 function build_jdk17_image () {
-    docker_file=debain_files/jdk17
+    docker_file=files/jdk17
 
     tag=${registry}/${namespace}/jdk17
 
@@ -17,7 +17,7 @@ function build_jdk17_image () {
 }
 
 function build_jdk21_image () {
-    docker_file=debain_files/jdk21
+    docker_file=files/jdk21
 
     tag=${registry}/${namespace}/jdk21
 
@@ -28,14 +28,31 @@ function build_jdk21_image () {
          -t ${tag} \
          ${context_path}
 
-    # docker push ${tag}
+    docker push ${tag}
+}
+
+function build_package_image () {
+    docker_file=files/build_node14_jdk21
+
+    tag=${registry}/${namespace}/build-mvn-node14-amd64
+
+    context_path=.
+
+    docker build --force-rm \
+         -f ${docker_file} \
+         -t ${tag} \
+         ${context_path}
+
+    docker push ${tag}
 }
 
 cmds=( \
 
 build_jdk21 \
 
-build_jdk17
+build_jdk17 \
+
+build_package_image
 
 )
 
@@ -49,6 +66,10 @@ function do_command () {
 
         build_jdk17)
             build_jdk17_image
+            ;;
+
+        build_package_image)
+            build_package_image
             ;;
 
         *)
