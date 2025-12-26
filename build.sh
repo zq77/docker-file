@@ -8,7 +8,7 @@ function build_jdk17_image () {
 
     context_path=.
 
-    docker build --force-rm \
+    docker build --platform linux/amd64 --force-rm \
          -f ${docker_file} \
          -t ${tag} \
          ${context_path}
@@ -23,7 +23,7 @@ function build_jdk21_image () {
 
     context_path=.
 
-    docker build --force-rm \
+    docker build --platform linux/amd64 --force-rm \
          -f ${docker_file} \
          -t ${tag} \
          ${context_path}
@@ -38,12 +38,12 @@ function build_package_image () {
 
     context_path=.
 
-    docker build --force-rm \
+    docker build --platform linux/amd64 --force-rm \
          -f ${docker_file} \
          -t ${tag} \
          ${context_path}
 
-    docker push ${tag}
+    # docker push ${tag}
 }
 
 cmds=( \
