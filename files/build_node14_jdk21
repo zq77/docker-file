@@ -1,27 +1,25 @@
 FROM registry.cn-hangzhou.aliyuncs.com/z_q/eclipse-temurin-21
+
+# Install Python 3.7 and related packages
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends curl software-properties-common wget ca-certificates xz-utils make g++ build-essential \
+ && add-apt-repository ppa:deadsnakes/ppa -y \
+ && apt-get update \
+ && apt-get install -y python3.7 python3.7-venv python3.7-dev \
+ && rm -rf /var/lib/apt/lists/*
+
 # install maven
-RUN apt-get install -yqq wget
 RUN wget -O /tmp/apache-maven-3.9.3-bin.tar.gz https://archive.apache.org/dist/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz
 RUN tar xf /tmp/apache-maven-*.tar.gz -C /opt
 RUN ln -s /opt/apache-maven-3.9.3 /opt/maven
 RUN ln -sf /opt/maven/bin/mvn /usr/local/bin/mvn
 ADD conf/maven/settings.xml /opt/maven/conf/settings.xml
 
-# Install Python 3.7 and related packages
-RUN apt-get update \
- && apt-get install -y --no-install-recommends software-properties-common wget ca-certificates \
- && add-apt-repository ppa:deadsnakes/ppa -y \
- && apt-get update \
- && apt-get install -y python3.7 python3.7-venv python3.7-dev \
- && rm -rf /var/lib/apt/lists/*
-
 #install nodejs14 using Aliyun (npmmirror) binary
-RUN apt-get update \
- && apt-get install -y --no-install-recommends curl ca-certificates xz-utils make g++ build-essential \
- && NODE_VERSION=14.21.3 \
- && curl -fsSL "https://registry.npmmirror.com/-/binary/node/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-amd64.tar.xz" -o /tmp/node.tar.xz \
+RUN NODE_VERSION=14.21.3 \
+ && curl -fsSL "https://registry.npmmirror.com/-/binary/node/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz" -o /tmp/node.tar.xz \
  && tar -xJf /tmp/node.tar.xz -C /tmp \
- && cp -R /tmp/node-v${NODE_VERSION}-linux-amd64 /usr/local/node \
+ && cp -R /tmp/node-v${NODE_VERSION}-linux-x64 /usr/local/node \
  && rm -rf /tmp/node* /var/lib/apt/lists/*
 
 # Expose Node environment variables for runtime
