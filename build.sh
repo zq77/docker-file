@@ -43,7 +43,7 @@ function build_package_image () {
          -t ${tag} \
          ${context_path}
 
-    # docker push ${tag}
+    docker push ${tag}
 }
 
 cmds=( \
